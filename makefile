@@ -1,13 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -g -fPIC
-LDFLAGS = -shared
+CFLAGS = -Wall -g -I/home/oleg/mysyslog1/libmysyslog -I/homr/oleg/mysyslog1/libmysyslog-text -I/home/oleg/mysyslog1/libmysyslog-json
+LDFLAGS = -L/home/oleg/mysyslog1/libmysyslog -L/home/oleg/mysyslog1/libmysyslog-text -L/home/oleg/mysyslog1/libmysyslog-json -lmysyslog -lmysyslog-text -lmysyslog-json -ldl
 
-all: libmysyslog.so
+all: mysyslog-client
 
-libmysyslog.so: libmysyslog.o
-	$(CC) $(LDFLAGS) -o $@ $<
-libmysyslog.o: libmysyslog.c libmysyslog.h
+mysyslog-client: mysyslog-client.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+mysyslog-client.o: mysyslog-client.c
 	$(CC) $(CFLAGS) -c $<
 
+run: mysyslog-client
+	./mysyslog-client
+
 clean:
-	rm -f *.so
+	rm -f mysyslog-client *.o
