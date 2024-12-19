@@ -1,17 +1,14 @@
 CC = gcc
-CFLAGS = -Wall -g -I/home/oleg/mysyslog1/libmysyslog -I/home/oleg/mysyslog1/libmysyslog-text -I/home/oleg/mysyslog1/libmysyslog-json
-LDFLAGS = -L/home/oleg/mysyslog1/libmysyslog -L/home/oleg/mysyslog1/libmysyslog-text -L/home/oleg/mysyslog1/libmysyslog-json -lmysyslog -lmysyslog-text -lmysyslog-json -ldl
+CFLAGS = -Wall -g -fPIC -I/home/oleg/mysyslog1/libmysyslog
+LDFLAGS = -shared
+TARGET = libmysyslog-text.so
 
-all:mysyslog-daemon
+all: $(TARGET)
 
-mysyslog-daemon: mysyslog-daemon.o
-	$(CC) -o $@ $^ $(LDFLAGS)
+$(TARGET): libmysyslog-text.o
+	$(CC) $(LDFLAGS) -o $@ $<
 
-mysyslog-daemon.o: mysyslog-daemon.c
+libmysyslog-text.o: libmysyslog-text.c
 	$(CC) $(CFLAGS) -c $<
-
-run: mysyslog-daemon
-	./mysyslog-daemon
-
 clean:
-	rm -f mysyslog-daemon *.o
+	rm -f *.o ^.so
