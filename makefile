@@ -1,14 +1,14 @@
 CC = gcc
-CFLAGS = -Wall -g -fPIC -I/home/oleg/mysyslog1/libmysyslog
+CFLAGS = -Wall -g -fPIC -I/home/oleg/mysyslog1/libmysyslog  # Добавьте путь к заголовочным файлам
 LDFLAGS = -shared
-TARGET = libmysyslog-text.so
 
-all: $(TARGET)
+all: libmysyslog-json.so
 
-$(TARGET): libmysyslog-text.o
-	$(CC) $(LDFLAGS) -o $@ $<
+libmysyslog-json.so: libmysyslog-json.o
+	$(CC) $(LDFLAGS) -o $@ $^
 
-libmysyslog-text.o: libmysyslog-text.c
+libmysyslog-json.o: libmysyslog-json.c
 	$(CC) $(CFLAGS) -c $<
+
 clean:
-	rm -f *.o ^.so
+	rm -f *.so *.o
