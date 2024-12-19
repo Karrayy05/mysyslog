@@ -1,23 +1,13 @@
-# Определяем подкаталоги
-SUBDIRS = libmysyslog libmysyslog-json libmysyslog-text mysyslog-client mysyslog-daemon
+CC = gcc
+CFLAGS = -Wall -g -fPIC
+LDFLAGS = -shared
 
-# Цель по умолчанию
-all: $(SUBDIRS)
+all: libmysyslog.so
 
-# Правило для запуска make в подкаталогах
-$(SUBDIRS):
-	$(MAKE) -C $@
+libmysyslog.so: libmysyslog.o
+	$(CC) $(LDFLAGS) -o $@ $<
+libmysyslog.o: libmysyslog.c libmysyslog.h
+	$(CC) $(CFLAGS) -c $<
 
-# Цель clean для очистки всех подкаталогов
 clean:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir clean; \
-	done
-
-run-client:
-	$(MAKE) -C mysyslog-client run
-
-run-daemon:
-	$(MAKE) -C mysyslog-daemon run
-
-.PHONY: all clean $(SUBDIRS)
+	rm -f *.so
