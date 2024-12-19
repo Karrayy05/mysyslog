@@ -1,17 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -g -I/home/oleg/mysyslog1/libmysyslog -I/homr/oleg/mysyslog1/libmysyslog-text -I/home/oleg/mysyslog1/libmysyslog-json
+CFLAGS = -Wall -g -I/home/oleg/mysyslog1/libmysyslog -I/home/oleg/mysyslog1/libmysyslog-text -I/home/oleg/mysyslog1/libmysyslog-json
 LDFLAGS = -L/home/oleg/mysyslog1/libmysyslog -L/home/oleg/mysyslog1/libmysyslog-text -L/home/oleg/mysyslog1/libmysyslog-json -lmysyslog -lmysyslog-text -lmysyslog-json -ldl
 
-all: mysyslog-client
+all:mysyslog-daemon
 
-mysyslog-client: mysyslog-client.o
+mysyslog-daemon: mysyslog-daemon.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-mysyslog-client.o: mysyslog-client.c
+mysyslog-daemon.o: mysyslog-daemon.c
 	$(CC) $(CFLAGS) -c $<
 
-run: mysyslog-client
-	./mysyslog-client
+run: mysyslog-daemon
+	./mysyslog-daemon
 
 clean:
-	rm -f mysyslog-client *.o
+	rm -f mysyslog-daemon *.o
